@@ -13,7 +13,9 @@ module.exports = {
     "//button[@class='button preserve focus-item loading-button']"
   ),
   coursePage: {
-    confirmVoiceBtn: By.xpath("//"),
+    confirmVoiceBtn: By.xpath(
+      "//button[@class='button confirm button--inverse ng-scope']"
+    ),
     skipVideoTest: By.id("fullcheck-skip-video"),
     tutorialLaterBtn: By.xpath(
       "//button[@class='button text later-tutorial-button ng-scope ng-binding']"
