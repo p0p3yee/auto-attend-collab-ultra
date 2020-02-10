@@ -4,7 +4,6 @@ const selector = require("./selector");
 
 const url = courseID =>
   `https://learn.polyu.edu.hk/webapps/collab-ultra/tool/collabultra?course_id=_${courseID}`;
-
 const netid = process.env.netid;
 const netpass = process.env.netpass;
 const courseid = "82659_1";
@@ -18,7 +17,11 @@ const courseid = "82659_1";
   await (await driver.findElement(selector.netIDLoginBtn)).click();
   await doLoginBlackboard(driver);
   await doWait(3);
-  await driver.get(url(courseid));
+  await driver.switchTo().frame(0);
+  await driver.wait(until.elementLocated(selector.goInCourseRoom), 10000);
+  await (await driver.findElement(selector.goInCourseRoom)).click();
+  await driver.wait(until.elementLocated(selector.joinCourseRoom));
+  await (await driver.findElement(selector.joinCourseRoom)).click();
   console.log("done");
 })();
 
