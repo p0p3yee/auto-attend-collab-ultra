@@ -9,43 +9,58 @@ const netid = process.env.netid;
 const netpass = process.env.netpass;
 const courseid = "82659_1";
 
-(async () => {
+const getFirefoxDefaultOpts = () =>
+  new firefox.Options()
+    .addArguments("use-fake-device-for-media-stream")
+    .addArguments("use-fake-ui-for-media-stream");
+
+const buildFirefoxDriver = async opts => {
   const driver = await new Builder()
     .forBrowser("firefox")
     .setFirefoxOptions(
-      new firefox.Options()
-        .addArguments("use-fake-device-for-media-stream")
-        .addArguments("use-fake-ui-for-media-stream")
+      typeof opts === "undefined" ? getFirefoxDefaultOpts() : opts
     )
     .build();
 
+  driver.clickElementWithWait = async (locator, timeout) => {
+    if (typeof timeout === "undefined") timeout = 10000;
+    await driver.wait(until.elementLocated(locator), timeout);
+    await (await driver.findElement(locator)).click();
+  };
+
+  return driver;
+};
+
+(async () => {
+  const driver = await buildFirefoxDriver();
+
   await driver.get(url(courseid));
 
-  await driver.wait(until.elementLocated(selector.agreeTermsBtn));
-  await (await driver.findElement(selector.agreeTermsBtn)).click();
+  await driver.clickElementWithWait(selector.agreeTermsBtn);
 
-  await driver.wait(until.elementLocated(selector.netIDLoginBtn));
-  await (await driver.findElement(selector.netIDLoginBtn)).click();
+  await driver.clickElementWithWait(selector.netIDLoginBtn);
 
   await doLoginBlackboard(driver);
   await doWait(3);
   await driver.switchTo().frame(0);
 
-  await clickElementWithWait(driver, selector.goInCourseRoom);
+  await driver.clickElementWithWait(selector.goInCourseRoom);
 
-  await clickElementWithWait(driver, selector.joinCourseRoom);
+  await driver.clickElementWithWait(selector.joinCourseRoom);
 
-  await clickElementWithWait(driver, selector.coursePage.confirmVoiceBtn);
+  await driver.clickElementWithWait(selector.coursePage.confirmVoiceBtn);
 
-  await clickElementWithWait(driver, selector.coursePage.skipVideoTest);
+  await driver.clickElementWithWait(selector.coursePage.skipVideoTest);
 
-  await clickElementWithWait(driver, selector.coursePage.skipVideoTest);
+  await driver.clickElementWithWait(selector.coursePage.skipVideoTest);
 
-  await clickElementWithWait(driver, selector.coursePage.skipVideoTest);
+  await driver.clickElementWithWait(selector.coursePage.skipVideoTest);
 
-  await clickElementWithWait(driver, selector.coursePage.tutorialLaterBtn);
+  await driver.clickElementWithWait(selector.coursePage.tutorialLaterBtn);
 
-  await clickElementWithWait(driver, selector.coursePage.closeTutorialTipsBtn);
+  await driver.clickElementWithWait(selector.coursePage.closeTutorialTipsBtn);
+
+  console.log("done");
 })();
 
 const clickElementWithWait = async (driver, locator, timeout) => {
