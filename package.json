@@ -9,6 +9,7 @@
   "author": "p0p3yee",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "selenium-webdriver": "4.0.0-alpha.5"
   }
 }
