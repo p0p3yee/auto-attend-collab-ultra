@@ -1,0 +1,14 @@
+{
+  "name": "auto-attend-collab-ultra",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "p0p3yee",
+  "license": "ISC",
+  "dependencies": {
+    "selenium-webdriver": "4.0.0-alpha.5"
+  }
+}
