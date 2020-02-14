@@ -1,4 +1,12 @@
+const fs = require("mz/fs");
 const courses = require("./courses.json.example");
+const jsonFile = require("jsonfile");
+const outPath = "./courses.json";
+
+const updateCoursesFile = () =>
+  jsonFile.writeFileSync(outPath, courses, {
+    spaces: 2
+  });
 
 const createCourse = (
   courseID,

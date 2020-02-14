@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.2.0",
+    "jsonfile": "^5.0.0",
+    "mz": "^2.7.0",
     "selenium-webdriver": "4.0.0-alpha.5"
   }
 }
