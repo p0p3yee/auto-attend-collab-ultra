@@ -25,7 +25,7 @@ const startInterval = () => {
     const currentDay = days[currentTime.getDay()];
     const currentHour = currentTime.getHours();
     const currentMinute = currentTime.getMinutes();
-
+    const attendClass = false;
     for (var i = 0; i < workList.length; i++) {
       if (currentDay !== workList[i].day) continue;
       const workStartHour = workList[i].start_time.slice(0, 2);
@@ -37,6 +37,8 @@ const startInterval = () => {
         currentMinute == workStartMinute &&
         !running
       ) {
+        attendClass = true;
+        console.log(`[${new Date().toLocaleTimeString()}]: Attending Class...`);
         workList[i].running = true;
         workList[i].driver = await workList[i].start_func();
       } else if (
@@ -44,9 +46,15 @@ const startInterval = () => {
         currentMinute == workEndMinute &&
         workList[i].running
       ) {
+        console.log(`[${new Date().toLocaleTimeString()}]: Class finished.`);
         workList[i].running = false;
         await workList[i].driver.close();
       }
+    }
+    if (!attendClass) {
+      console.log(
+        `[${new Date().toLocaleTimeString()}]: No classes to attend.`
+      );
     }
   }, checkInterval);
 };
