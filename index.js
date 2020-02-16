@@ -5,7 +5,6 @@ const classHandler = require("./src/classHandler");
 
 const netid = process.env.netid;
 const netpass = process.env.netpass;
-const courseid = "82659_1";
 
 const verifyCourses = courseArr => {
   if (!courseArr) throw new Error("Course is undefined.");
@@ -30,11 +29,24 @@ const verifyCourses = courseArr => {
   }
 };
 
+const createWork = courseArr => {
+  const works = [];
+  courseArr.forEach(v => {
+    works.push(scheduled.createWork(v.start_time, v.end_time, v.day));
+  });
+  return works;
+};
+
 (async () => {
   console.log("Starting...");
   try {
     console.log(`Verifying Courses...`);
     verifyCourses(courses);
+    console.log("Courses Verified.");
+    scheduled.addWorks(createWork(courses));
+    scheduled.startInterval();
+    console.log("Interval Started.");
+    console.log("Total Interval: " + scheduled.getTotalWorkNum());
   } catch (e) {
     console.error(e);
     process.exit(1);
