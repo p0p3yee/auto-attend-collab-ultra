@@ -56,6 +56,7 @@ const stopInterval = interval => clearInterval(interval);
 module.exports = {
   createWork,
   addWork: work => workList.push(work) - 1,
+  addWorks: works => works.forEach(v => workList.push(v)),
   delWork: workID => workList.splice(workID, 1),
   getTotalWorkNum: () => workList.length,
   startInterval,
