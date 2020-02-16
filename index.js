@@ -37,7 +37,7 @@ const createWork = courseArr => {
         v.start_time,
         v.end_time,
         v.day,
-        classHandler.attendClass(netid, netpass, v.course_id)
+        async () => await classHandler.attendClass(netid, netpass, v.course_id)
       )
     )
   );
