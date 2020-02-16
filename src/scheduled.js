@@ -57,6 +57,7 @@ module.exports = {
   createWork,
   addWork: work => workList.push(work) - 1,
   delWork: workID => workList.splice(workID, 1),
+  getTotalWorkNum: () => workList.length,
   startInterval,
   stopInterval
 };
