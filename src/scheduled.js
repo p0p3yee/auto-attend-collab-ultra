@@ -4,23 +4,23 @@ const MINUTE = SECOND * 60;
 const checkInterval = MINUTE / 2;
 const workList = [];
 
-const createWork = (startTime, endTime, day, startFunc, endFunc) => {
-  return startTime && endTime && day && startFunc && endFunc
+const createWork = (startTime, endTime, day, startFunc) => {
+  return startTime && endTime && day && startFunc
     ? days.includes(day)
       ? {
           start_time: startTime,
           end_time: endTime,
           day: day,
           start_func: startFunc,
-          end_func: endFunc,
-          running: false
+          running: false,
+          driver: null
         }
       : new Error("Day can only be: " + days.join(" or "))
     : new Error("Parameters can't be null.");
 };
 
 const startInterval = () => {
-  return setInterval(() => {
+  return setInterval(async () => {
     const currentTime = new Date();
     const currentDay = days[currentTime.getDay()];
     const currentHour = currentTime.getHours();
@@ -37,15 +37,15 @@ const startInterval = () => {
         currentMinute == workStartMinute &&
         !running
       ) {
-        workList[i].start_func();
         workList[i].running = true;
+        workList[i].driver = await workList[i].start_func();
       } else if (
         currentHour == workEndHour &&
         currentMinute == workEndMinute &&
         workList[i].running
       ) {
-        workList[i].end_func();
         workList[i].running = false;
+        await workList[i].driver.close();
       }
     }
   }, checkInterval);
