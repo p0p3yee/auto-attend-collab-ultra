@@ -32,7 +32,15 @@ const verifyCourses = courseArr => {
 const createWork = courseArr => {
   const works = [];
   courseArr.forEach(v => {
-    works.push(scheduled.createWork(v.start_time, v.end_time, v.day));
+    works.push(
+      scheduled.createWork(
+        v.start_time,
+        v.end_time,
+        v.day,
+        classHandler.attendClass(netid, netpass, v.course_id),
+        () => console.log("done")
+      )
+    );
   });
   return works;
 };
