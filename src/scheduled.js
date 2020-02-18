@@ -25,7 +25,7 @@ const startInterval = () => {
     const currentDay = days[currentTime.getDay()];
     const currentHour = currentTime.getHours();
     const currentMinute = currentTime.getMinutes();
-    const attendClass = false;
+    var attendClass = false;
     for (var i = 0; i < workList.length; i++) {
       if (currentDay !== workList[i].day) continue;
       const workStartHour = workList[i].start_time.slice(0, 2);
@@ -35,7 +35,7 @@ const startInterval = () => {
       if (
         currentHour == workStartHour &&
         currentMinute == workStartMinute &&
-        !running
+        !workList[i].running
       ) {
         attendClass = true;
         console.log(`[${new Date().toLocaleTimeString()}]: Attending Class...`);
